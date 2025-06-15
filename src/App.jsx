@@ -48,7 +48,7 @@ function App() {
   const handleDownloadCV = () => {
     try {
       const link = document.createElement('a');
-      link.href = '/src/curriculo_william.pdf'; // Arquivo na pasta public
+      link.href = '/curriculo_william.pdf'; // Arquivo na pasta public
       link.download = 'William-Araujo-Curriculo.pdf';
       document.body.appendChild(link);
       link.click();
