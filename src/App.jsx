@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -15,8 +14,7 @@ import {
   ExternalLink,
   Download,
   Star,
-  Calendar,
-  Award
+  Calendar
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
@@ -48,17 +46,29 @@ function App() {
   };
 
   const handleDownloadCV = () => {
-    toast({
-      title: "🚧 Download do CV",
-      description: "Esta funcionalidade ainda não foi implementada—mas não se preocupe! Você pode solicitá-la no seu próximo prompt! 🚀"
-    });
+    try {
+      const link = document.createElement('a');
+      link.href = '/src/curriculo_william.pdf'; // Arquivo na pasta public
+      link.download = 'William-Araujo-Curriculo.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast({
+        title: "✅ Download realizado!",
+        description: "O currículo foi baixado com sucesso!"
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "❌ Erro no download",
+        description: "Ocorreu um erro ao baixar o currículo. Por favor, tente novamente."
+      });
+    }
   };
 
-  const handleProjectClick = (projectName) => {
-    toast({
-      title: "🚧 Visualização do Projeto",
-      description: "Esta funcionalidade ainda não foi implementada—mas não se preocupe! Você pode solicitá-la no seu próximo prompt! 🚀"
-    });
+  const handleProjectClick = (githubPath) => {
+    window.open(`https://github.com/${githubPath}`, '_blank');
   };
 
   const skills = [
@@ -428,157 +438,47 @@ function App() {
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
               variants={staggerContainer}
             >
-              <motion.div
-                className="project-card p-6 relative z-10"
-                variants={scaleIn}
-                whileHover={{ y: -10 }}
-              >
-                <img  
-                  className="w-full h-48 object-cover rounded-lg mb-6" 
-                  alt="API de Controle de Finanças Pessoais"
-                 src="https://images.unsplash.com/photo-1644995722044-6cd197ffb440" />
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold mb-3">API de Controle de Finanças Pessoais</h3>
-                  <p className="text-gray-400 mb-4">Sistema completo para gestão financeira pessoal com categorização de gastos</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">Java Spring Boot</span>
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm">MySQL</span>
+              {projects.map((project) => (
+                <motion.div
+                  key={project.title}
+                  className="project-card p-6 relative z-10"
+                  variants={scaleIn}
+                  whileHover={{ y: -10 }}
+                >
+                  <img  
+                    className="w-full h-48 object-cover rounded-lg mb-6" 
+                    alt={project.title}
+                    src="https://images.unsplash.com/photo-1644995722044-6cd197ffb440" 
+                  />
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-bold mb-3">{project.title}</h3>
+                    <p className="text-gray-400 mb-4">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.split(', ').map(tech => (
+                        <span 
+                          key={tech} 
+                          className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className={`${project.status === 'Em desenvolvimento' ? 'text-yellow-400' : 'text-green-400'} text-sm`}>
+                        {project.status}
+                      </span>
+                      <Button 
+                        onClick={() => handleProjectClick(project.github)}
+                        variant="ghost" 
+                        size="sm"
+                        className="text-blue-400 hover:text-blue-300"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-yellow-400 text-sm">Em desenvolvimento</span>
-                    <Button 
-                      onClick={() => handleProjectClick('finances')}
-                      variant="ghost" 
-                      size="sm"
-                      className="text-blue-400 hover:text-blue-300"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="project-card p-6 relative z-10"
-                variants={scaleIn}
-                whileHover={{ y: -10 }}
-              >
-                <img  
-                  className="w-full h-48 object-cover rounded-lg mb-6" 
-                  alt="API de Agendamento Médico"
-                 src="https://images.unsplash.com/photo-1649433391719-2e784576d044" />
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold mb-3">API de Agendamento Médico</h3>
-                  <p className="text-gray-400 mb-4">Sistema de agendamento com validações e controle de disponibilidade</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">PHP PDO</span>
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm">MySQL</span>
-                    <span className="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-sm">MVC</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-400 text-sm">Concluído</span>
-                    <Button 
-                      onClick={() => handleProjectClick('agendamento')}
-                      variant="ghost" 
-                      size="sm"
-                      className="text-blue-400 hover:text-blue-300"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="project-card p-6 relative z-10"
-                variants={scaleIn}
-                whileHover={{ y: -10 }}
-              >
-                <img  
-                  className="w-full h-48 object-cover rounded-lg mb-6" 
-                  alt="API Medidor de Força de Senhas"
-                 src="https://images.unsplash.com/photo-1600695268275-1a6468700bd5" />
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold mb-3">API Medidor de Força de Senhas</h3>
-                  <p className="text-gray-400 mb-4">Validador inteligente com múltiplos critérios de segurança</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">Java Spring Boot</span>
-                    <span className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm">API RESTful</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-400 text-sm">Concluído</span>
-                    <Button 
-                      onClick={() => handleProjectClick('senha')}
-                      variant="ghost" 
-                      size="sm"
-                      className="text-blue-400 hover:text-blue-300"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="project-card p-6 relative z-10"
-                variants={scaleIn}
-                whileHover={{ y: -10 }}
-              >
-                <img  
-                  className="w-full h-48 object-cover rounded-lg mb-6" 
-                  alt="API de Transações Financeiras"
-                 src="https://images.unsplash.com/photo-1642054220431-649c53b0d3de" />
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold mb-3">API de Transações Financeiras</h3>
-                  <p className="text-gray-400 mb-4">Sistema bancário com validações robustas e tratamento de exceções</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">Java Spring Boot</span>
-                    <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm">Validation</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-400 text-sm">Concluído</span>
-                    <Button 
-                      onClick={() => handleProjectClick('transacoes')}
-                      variant="ghost" 
-                      size="sm"
-                      className="text-blue-400 hover:text-blue-300"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="project-card p-6 relative z-10"
-                variants={scaleIn}
-                whileHover={{ y: -10 }}
-              >
-                <img  
-                  className="w-full h-48 object-cover rounded-lg mb-6" 
-                  alt="API de Gestão de Funcionários"
-                 src="https://images.unsplash.com/photo-1686061592689-312bbfb5c055" />
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold mb-3">API de Gestão de Funcionários</h3>
-                  <p className="text-gray-400 mb-4">Sistema corporativo para controle de RH com relatórios</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">PHP PDO</span>
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm">MySQL</span>
-                    <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm">CRUD</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-400 text-sm">Concluído</span>
-                    <Button 
-                      onClick={() => handleProjectClick('funcionarios')}
-                      variant="ghost" 
-                      size="sm"
-                      className="text-blue-400 hover:text-blue-300"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
         </div>
@@ -721,7 +621,7 @@ function App() {
       <footer className="bg-slate-900 border-t border-slate-700 py-8">
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-400">
-            © 2024 William Araújo. Desenvolvido com ❤️ e muito código.
+            © 2025 William Araújo
           </p>
         </div>
       </footer>
