@@ -72,12 +72,12 @@ function App() {
   };
 
   const skills = [
-    { name: 'PHP', level: 'Avançado', icon: Code, color: 'from-purple-500 to-pink-500' },
+    { name: 'PHP', level: 'Intermediário', icon: Code, color: 'from-purple-500 to-pink-500' },
     { name: 'Java Spring Boot', level: 'Intermediário', icon: Server, color: 'from-green-500 to-blue-500' },
     { name: 'MySQL', level: 'Avançado', icon: Database, color: 'from-orange-500 to-red-500' },
     { name: 'JavaScript', level: 'Intermediário', icon: Code, color: 'from-yellow-500 to-orange-500' },
     { name: 'PostgreSQL', level: 'Intermediário', icon: Database, color: 'from-blue-500 to-indigo-500' },
-    { name: 'Git/GitHub', level: 'Avançado', icon: Github, color: 'from-gray-500 to-gray-700' }
+    { name: 'Git/GitHub', level: 'Intermediário', icon: Github, color: 'from-gray-500 to-gray-700' }
   ];
 
   const projects = [
@@ -170,13 +170,13 @@ function App() {
                 <MapPin className="w-4 h-4 text-blue-400" />
                 <span>Salvador, BA</span>
               </div>
-              <div className="flex items-center gap-2 glass-effect px-4 py-2 rounded-full">
+              {/* <div className="flex items-center gap-2 glass-effect px-4 py-2 rounded-full">
                 <Mail className="w-4 h-4 text-green-400" />
                 <span>williamaraujo2707@gmail.com</span>
-              </div>
+              </div> */}
               <div className="flex items-center gap-2 glass-effect px-4 py-2 rounded-full">
                 <Phone className="w-4 h-4 text-purple-400" />
-                <span>71 985391138</span>
+                <span><a href="https://wa.me/5571985391138" target="_blank">Telefone</a></span>
               </div>
             </motion.div>
 
@@ -401,7 +401,7 @@ function App() {
                   <ul className="space-y-2 text-gray-300">
                     <li>• Spring Boot</li>
                     <li>• jQuery</li>
-                    <li>• PDO</li>
+                    <li>• FPDF</li>
                   </ul>
                 </div>
                 <div>
